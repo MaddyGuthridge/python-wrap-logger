@@ -41,7 +41,7 @@ try:
     )
     from typing_extensions import ParamSpec
 except ImportError:
-    TYPE_CHECKING = False
+    TYPE_CHECKING = False  # type: ignore
     pass
 
 from itertools import chain
