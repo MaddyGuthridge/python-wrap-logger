@@ -14,7 +14,7 @@ jobs:
         cp .gitignore wrap_logger/.gitignore
         cp README.md wrap_logger/README.md
         cp LICENSE.md wrap_logger/LICENSE.md
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: 'wrap-logger'
         path: wrap_logger
