@@ -1,15 +1,13 @@
-[tool.poetry]
+[project]
 name = "wrap-logger"
 version = "0.2.1"
 description = "A library to wrap around objects and modules in Python and log property accesses and calls"
-authors = ["Maddy Guthridge <hdsq@outlook.com.au>"]
-license = "MIT"
+authors = [
+    {name = "Maddy Guthridge", email = "hello@maddyguthridge.com"},
+]
+license = {text = "MIT"}
 readme = "README.md"
-packages = [{include = "wrap_logger"}]
-
-repository = "https://github.com/MaddyGuthridge/python-wrap-logger"
-documentation = "https://github.com/MaddyGuthridge/python-wrap-logger"
-
+requires-python = ">=3.10"
 keywords = [
     "log",
     "logger",
@@ -19,29 +17,18 @@ keywords = [
 classifiers = [
     "Programming Language :: Python :: 3",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Development Status :: 4 - Beta",
     "Typing :: Typed",
     "Topic :: Utilities",
     "Topic :: System :: Logging",
 ]
-include = ["py.typed"]
+dependencies = []
 
-[tool.poetry.urls]
+[project.urls]
 "Online Documentation" = "https://github.com/MaddyGuthridge/python-wrap-logger"
 "Bug Tracker" = "https://github.com/MaddyGuthridge/python-wrap-logger/issues"
 
-[tool.poetry.dependencies]
-python = "^3.9"
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=7.4,<9.0"
-coverage = "^7.3.0"
-flake8 = ">=6.1,<8.0"
-mypy = "^1.5.1"
-jestspectation = "^1.2.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = ["pytest>=7.4,<9.0", "coverage>=7.3.0", "flake8>=6.1,<8.0", "mypy>=1.5.1", "jestspectation>=1.2.0"]
