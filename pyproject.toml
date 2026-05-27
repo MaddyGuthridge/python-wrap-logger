@@ -31,4 +31,10 @@ dependencies = []
 
 
 [dependency-groups]
-dev = ["pytest>=7.4,<9.0", "coverage>=7.3.0", "flake8>=6.1,<8.0", "mypy>=1.5.1", "jestspectation>=1.2.0"]
+dev = [
+    "pytest>=7.4,<9.0",
+    "coverage>=7.3.0",
+    "mypy>=1.5.1",
+    "jestspectation>=1.2.0",
+    "ruff>=0.15.14",
+]
