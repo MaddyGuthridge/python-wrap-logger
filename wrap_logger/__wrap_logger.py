@@ -33,19 +33,18 @@ SOFTWARE.
 # module, so silence any import errors to make it work there
 try:
     from typing import (
+        TYPE_CHECKING,
         Any,
-        Optional,
         TextIO,
         TypeVar,
-        TYPE_CHECKING,
     )
+
     from typing_extensions import ParamSpec
 except ImportError:
     TYPE_CHECKING = False  # type: ignore
     pass
 
 from itertools import chain
-
 
 if TYPE_CHECKING:
     T = TypeVar('T')
@@ -68,8 +67,8 @@ class WrapLogger:
         subject: 'Any',
         depth: int = 0,
         only_for_call: bool = False,
-        name: 'Optional[str]' = None,
-        output: 'Optional[TextIO]' = None,
+        name: 'str | None' = None,
+        output: 'TextIO | None' = None,
     ) -> None:
         self.__name = name if name is not None else get_item_name(subject)
         self.__subject = subject
@@ -168,7 +167,7 @@ class WrapLogger:
         self.__subject.__class__ = new_class
 
 
-def wrap(subject: 'T', output: 'Optional[TextIO]' = None) -> 'T':
+def wrap(subject: 'T', output: 'TextIO | None' = None) -> 'T':
     """
     Wrap an object so that its property accesses and method calls are logged
 

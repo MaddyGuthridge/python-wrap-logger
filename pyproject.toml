@@ -36,5 +36,51 @@ dev = [
     "coverage>=7.3.0",
     "mypy>=1.5.1",
     "jestspectation>=1.2.0",
-    "ruff>=0.15.14",
+    "ruff>=0.15.13",
+]
+
+[tool.uv]
+# Exclude dependency releases newer than 1 week, in order to reduce supply-chain
+# risk.
+exclude-newer = "1 week"
+
+[build-system]
+requires = ["uv_build>=0.7.20,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "wrap_logger"
+module-root = ""
+
+[tool.mypy]
+check_untyped_defs = true
+files = ["wrap_logger", "tests"]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # isort
+    "I",
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    'if TYPE_CHECKING:',
+    'return NotImplemented',
+    '@overload',
+    'raise AssertionError',
+    'raise NotImplementedError',
 ]

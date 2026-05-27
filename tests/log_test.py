@@ -2,17 +2,20 @@
 Tests for the "logginess" of WrapLogger
 """
 import sys
-from jestspectation import Equals, StringContaining
+
 import pytest
+from jestspectation import Equals, StringContaining
 from pytest import CaptureFixture
+
 from wrap_logger import wrap
+
 from .helpers import Simple
 
 
-def test_capture_read(capsys: CaptureFixture):
+def test_capture_read(capsys: CaptureFixture[str]):
     """Are basic property accesses logged"""
     wrapped = wrap(Simple())
-    wrapped.value
+    _ = wrapped.value
 
     capture = capsys.readouterr()
 
@@ -22,12 +25,12 @@ def test_capture_read(capsys: CaptureFixture):
     ])
 
 
-def test_capture_non_existent_read(capsys: CaptureFixture):
+def test_capture_non_existent_read(capsys: CaptureFixture[str]):
     """Are exceptions logged for invalid reads"""
     wrapped = wrap(Simple())
 
     with pytest.raises(AttributeError):
-        wrapped.invalid  # type: ignore
+        wrapped.invalid  # type: ignore  # noqa: B018
 
     capture = capsys.readouterr()
     assert capture.out.strip() == '\n'.join([
@@ -37,7 +40,7 @@ def test_capture_non_existent_read(capsys: CaptureFixture):
     ])
 
 
-def test_capture_write(capsys: CaptureFixture):
+def test_capture_write(capsys: CaptureFixture[str]):
     """Are basic writes logged?"""
     wrapped = wrap(Simple())
     wrapped.value = 43
@@ -49,7 +52,7 @@ def test_capture_write(capsys: CaptureFixture):
     ])
 
 
-def test_capture_non_existent_write(capsys: CaptureFixture):
+def test_capture_non_existent_write(capsys: CaptureFixture[str]):
     """Are basic writes logged for properties that didn't exist before?"""
     wrapped = wrap(Simple())
     wrapped.new = 43  # type: ignore
@@ -61,7 +64,7 @@ def test_capture_non_existent_write(capsys: CaptureFixture):
     ])
 
 
-def test_capture_call(capsys: CaptureFixture):
+def test_capture_call(capsys: CaptureFixture[str]):
     """Are object calls logged?"""
     wrapped = wrap(Simple())
 
@@ -74,7 +77,7 @@ def test_capture_call(capsys: CaptureFixture):
     ])
 
 
-def test_capture_call_method(capsys: CaptureFixture):
+def test_capture_call_method(capsys: CaptureFixture[str]):
     """Are object calls logged?"""
     wrapped = wrap(Simple())
 
@@ -90,12 +93,12 @@ def test_capture_call_method(capsys: CaptureFixture):
     ])
 
 
-def test_capture_module_function(capsys: CaptureFixture):
+def test_capture_module_function(capsys: CaptureFixture[str]):
     """Are function calls from wrapped modules logged?"""
     from . import example_module
     wrapped = wrap(example_module)
 
-    wrapped.foo()
+    _ = wrapped.foo()
 
     capture = capsys.readouterr()
     assert capture.out.strip().splitlines() == Equals([
@@ -109,10 +112,10 @@ def test_capture_module_function(capsys: CaptureFixture):
     ])
 
 
-def test_output_to_file_get(capsys: CaptureFixture):
+def test_output_to_file_get(capsys: CaptureFixture[str]):
     """Are outputs written to the correct files for __getattr__?"""
     wrapped = wrap(Simple(), output=sys.stderr)
-    wrapped.value
+    _ = wrapped.value
 
     capture = capsys.readouterr()
 
@@ -122,7 +125,7 @@ def test_output_to_file_get(capsys: CaptureFixture):
     ])
 
 
-def test_output_to_file_set(capsys: CaptureFixture):
+def test_output_to_file_set(capsys: CaptureFixture[str]):
     """Are outputs written to the correct files for __setattr__?"""
     wrapped = wrap(Simple(), output=sys.stderr)
     wrapped.value = 43
@@ -134,7 +137,7 @@ def test_output_to_file_set(capsys: CaptureFixture):
     ])
 
 
-def test_output_to_file_call(capsys: CaptureFixture):
+def test_output_to_file_call(capsys: CaptureFixture[str]):
     """Are outputs written to the correct files for __call__?"""
     wrapped = wrap(Simple(), output=sys.stderr)
 

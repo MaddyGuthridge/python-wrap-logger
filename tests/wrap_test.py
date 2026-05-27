@@ -2,7 +2,9 @@
 Tests for the "wrappiness" of WrapLogger
 """
 import pytest
+
 from wrap_logger import wrap
+
 from .helpers import Simple
 
 
@@ -43,7 +45,7 @@ def test_non_existant_property_lookups_fail():
     """Do we get an error trying to access a property that doesn't exist"""
     with pytest.raises(AttributeError):
         # Access non-existent
-        wrap(object()).invalid  # type: ignore
+        wrap(object()).invalid  # type: ignore  # noqa: B018
 
 
 def test_wraps_modules():
